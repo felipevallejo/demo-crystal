@@ -92,9 +92,11 @@ function App() {
             mobileMenuOpen ? 'translate-x-0 shadow-2xl shadow-black/20' : '-translate-x-full',
           )}
         >
-          <div className="flex items-center justify-between">
-            <img src="/logo-crystal.png" alt="Crystal" className="h-9 w-auto" />
-            <button className="rounded-full p-2 text-slate-500 lg:hidden" onClick={() => setMobileMenuOpen(false)}>
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex-1 min-w-0">
+              <img src="/logo-crystal.png" alt="Crystal" className="block h-auto w-full" />
+            </div>
+            <button className="shrink-0 rounded-full p-2 text-slate-500 lg:hidden" onClick={() => setMobileMenuOpen(false)}>
               <X size={18} />
             </button>
           </div>
