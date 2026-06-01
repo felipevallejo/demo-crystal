@@ -21,6 +21,13 @@ export type TabId =
 export type MaturityId = 'human' | 'assisted' | 'agentic';
 export type RoleId = 'collaborator' | 'leader';
 
+/** Contrato uniforme de todas las vistas v3. */
+export type ViewProps = {
+  role: RoleId;
+  tab: TabId;
+  onNavigate: (tab: TabId) => void;
+};
+
 export type NavSubItem = {
   id: TabId;
   label: string;

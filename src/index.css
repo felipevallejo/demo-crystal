@@ -1,16 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 @config "../tailwind.config.js";
 @source "../index.html";
 @source "../src/**/*.{js,ts,jsx,tsx}";
 
 :root {
-  color: #0f172a;
-  font-family: 'Montserrat', sans-serif;
-  background:
-    radial-gradient(circle at top left, rgba(55, 179, 74, 0.12), transparent 28%),
-    radial-gradient(circle at top right, rgba(156, 178, 217, 0.16), transparent 24%),
-    linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+  /* Canvas */
+  --paper: #faf8f4;
+  --paper-2: #f1ece3;
+  --ink: #12110f;
+  --ink-soft: #57524b;
+  --line: #e7e1d7;
+  /* Marca GEF */
+  --gef-green: #37b34a;
+  --gef-deep: #000078;
+  --gef-glow: #5bc85e;
+  --pb-beige: #bc8b6b;
+
+  color: var(--ink);
+  font-family: "Inter", system-ui, sans-serif;
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 html {
@@ -20,132 +30,109 @@ html {
 body {
   min-width: 320px;
   margin: 0;
-  background: transparent;
-  color: #0f172a;
+  color: var(--ink);
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(60rem 40rem at 8% -8%, rgba(55, 179, 74, 0.10), transparent 60%),
+    radial-gradient(55rem 38rem at 100% 0%, rgba(0, 0, 120, 0.07), transparent 55%),
+    radial-gradient(70rem 50rem at 50% 120%, rgba(188, 139, 107, 0.07), transparent 60%);
+  background-attachment: fixed;
 }
 
 button,
-input {
+input,
+textarea {
   font: inherit;
 }
+button { cursor: pointer; }
 
-button {
-  cursor: pointer;
+#root { min-height: 100dvh; }
+
+/* ---- Tipografía ---- */
+.font-display { font-family: "Montserrat", system-ui, sans-serif; }
+h1, h2, h3 { letter-spacing: -0.02em; }
+.text-balance { text-wrap: balance; }
+.text-pretty { text-wrap: pretty; }
+
+/* ---- Gradiente firma + utilidades de marca ---- */
+.signature-grad {
+  background-image: linear-gradient(120deg, #000078 0%, #0f5e3a 45%, #37b34a 80%, #5bc85e 100%);
+}
+.signature-text {
+  background-image: linear-gradient(120deg, #000078 0%, #2f9a44 60%, #37b34a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.ring-line { box-shadow: inset 0 0 0 1px var(--line); }
+
+/* ---- Grano editorial (overlay sutil) ---- */
+.grain { position: relative; isolation: isolate; }
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
 }
 
-#root {
-  min-height: 100vh;
+/* ---- Scrollbar discreta ---- */
+* { scrollbar-width: thin; scrollbar-color: #d8d1c5 transparent; }
+*::-webkit-scrollbar { width: 9px; height: 9px; }
+*::-webkit-scrollbar-thumb { background: #d8d1c5; border-radius: 999px; }
+*::-webkit-scrollbar-track { background: transparent; }
+
+/* ---- Motion safe defaults ---- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
 
-.bg-canvas {
-  background:
-    radial-gradient(circle at top left, rgba(55, 179, 74, 0.12), transparent 28%),
-    radial-gradient(circle at top right, rgba(156, 178, 217, 0.16), transparent 24%),
-    linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
-}
+/* ---- cmdk reset (estilizamos en componente) ---- */
+[cmdk-overlay] { position: fixed; inset: 0; }
+[cmdk-list] { transition: height 0.18s ease; }
 
-.card-crystal {
-  border: 1px solid rgba(226, 232, 240, 0.9);
+/* ================================================================
+   Compat v2 — clases heredadas (se eliminan al migrar cada vista)
+   ================================================================ */
+.bg-canvas { background: var(--paper); }
+.card-crystal, .glass-card {
+  border: 1px solid var(--line);
   border-radius: 28px;
-  background: rgba(255, 255, 255, 0.94);
+  background: rgba(255, 255, 255, 0.92);
   padding: 1.5rem;
-  box-shadow: 0 20px 60px -32px rgba(15, 23, 42, 0.35);
-  backdrop-filter: blur(10px);
+  box-shadow: 0 20px 60px -32px rgba(18, 23, 42, 0.28);
 }
-
-.glass-card {
-  border: 1px solid rgba(226, 232, 240, 0.9);
-  border-radius: 28px;
-  background: rgba(255, 255, 255, 0.9);
-  padding: 1.5rem;
-  box-shadow: 0 20px 60px -32px rgba(15, 23, 42, 0.25);
-  backdrop-filter: blur(10px);
-}
-
 .hero-panel {
-  border: 1px solid rgba(226, 232, 240, 0.9);
+  border: 1px solid var(--line);
   border-radius: 36px;
   background: rgba(255, 255, 255, 0.9);
   padding: 1.5rem;
-  box-shadow: 0 25px 80px -40px rgba(15, 23, 42, 0.35);
-  backdrop-filter: blur(10px);
+  box-shadow: 0 25px 80px -40px rgba(18, 23, 42, 0.32);
 }
-
 .badge-soft {
   border: 1px solid rgb(167 243 208);
-  border-radius: 9999px;
-  background: rgb(236 253 245);
-  padding: 0.5rem 1rem;
-  color: rgb(4 120 87);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
+  border-radius: 9999px; background: rgb(236 253 245);
+  padding: 0.5rem 1rem; color: rgb(4 120 87);
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
 }
-
 .btn-crystal-primary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 9999px;
-  background: rgb(2 6 23);
-  padding: 0.75rem 1.5rem;
-  color: white;
-  font-size: 0.875rem;
-  font-weight: 600;
-  transition: transform 0.2s ease;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 9999px; background: var(--ink); padding: 0.75rem 1.5rem;
+  color: white; font-size: 0.875rem; font-weight: 600; transition: transform 0.2s ease;
 }
-
-.btn-crystal-primary:hover {
-  transform: scale(1.01);
-}
-
+.btn-crystal-primary:hover { transform: scale(1.01); }
 .btn-crystal-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid rgb(226 232 240);
-  border-radius: 9999px;
-  background: white;
-  padding: 0.75rem 1.5rem;
-  color: rgb(15 23 42);
-  font-size: 0.875rem;
-  font-weight: 600;
-  transition: background-color 0.2s ease;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid var(--line); border-radius: 9999px; background: white;
+  padding: 0.75rem 1.5rem; color: var(--ink); font-size: 0.875rem; font-weight: 600;
 }
-
-.btn-crystal-secondary:hover {
-  background: rgb(248 250 252);
-}
-
 .btn-dark-ghost {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 0.5rem 1rem;
-  color: white;
-  font-size: 0.875rem;
-  font-weight: 500;
-  backdrop-filter: blur(10px);
-  transition: background-color 0.2s ease;
-}
-
-.btn-dark-ghost:hover {
-  background: rgba(255, 255, 255, 0.15);
-}
-
-@media (min-width: 640px) {
-  .hero-panel {
-    padding: 2rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .hero-panel {
-    padding: 2.5rem;
-  }
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.1); padding: 0.5rem 1rem; color: white;
+  font-size: 0.875rem; font-weight: 500; backdrop-filter: blur(10px);
 }

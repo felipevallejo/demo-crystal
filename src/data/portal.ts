@@ -1024,3 +1024,175 @@ export function parseTab(search: string, role: RoleId): TabId {
 
   return raw;
 }
+
+/* ================================================================
+   v3 — Modelo de experiencia: intención + 5 dimensiones + IA
+   ================================================================ */
+
+export type DimensionItem = {
+  id: 'bienestar' | 'comunidad' | 'productividad' | 'cultura' | 'conocimiento';
+  name: string;
+  tagline: string;
+  human: string;
+  org: string;
+  icon: LucideIcon;
+  /** color hex del acento de la dimensión */
+  accent: string;
+  /** clases de tinte suave para chips/cards */
+  tint: string;
+  tab: TabId;
+  examples: string[];
+};
+
+export const dimensions: DimensionItem[] = [
+  {
+    id: 'bienestar',
+    name: 'Bienestar',
+    tagline: 'Que estar en Crystal te haga sentir mejor.',
+    human: 'Salud física, mental, emocional y balance de vida.',
+    org: 'Personas sostenibles, con energía y mejor desempeño.',
+    icon: Salad,
+    accent: '#37B34A',
+    tint: 'bg-emerald-50 text-emerald-700 ring-emerald-100',
+    tab: 'comms',
+    examples: ['Pausas activas', 'Alimentación', 'Salud mental', 'Campañas'],
+  },
+  {
+    id: 'comunidad',
+    name: 'Comunidad',
+    tagline: 'Que nadie en Crystal se sienta invisible.',
+    human: 'Pertenencia, relaciones y sentirse reconocido.',
+    org: 'Cohesión cultural, colaboración y capital social.',
+    icon: HeartHandshake,
+    accent: '#F59E0B',
+    tint: 'bg-amber-50 text-amber-700 ring-amber-100',
+    tab: 'people',
+    examples: ['Cumpleaños', 'Eventos', 'Reconocimiento', 'Voluntariados'],
+  },
+  {
+    id: 'productividad',
+    name: 'Productividad',
+    tagline: 'Que resolver lo tuyo tome segundos, no trámites.',
+    human: 'Resolver rápido, con claridad y menos burocracia.',
+    org: 'Eficiencia, menos tickets y más autoservicio.',
+    icon: Workflow,
+    accent: '#000078',
+    tint: 'bg-indigo-50 text-indigo-700 ring-indigo-100',
+    tab: 'services',
+    examples: ['Self-service', 'Búsqueda', 'Asistente IA', 'Quick actions'],
+  },
+  {
+    id: 'cultura',
+    name: 'Cultura',
+    tagline: 'Que sepas para dónde vamos y por qué importa.',
+    human: 'Pertenecer, aportar y sentir que lo que haces cuenta.',
+    org: 'Alineación, coherencia e identidad compartida.',
+    icon: Sparkles,
+    accent: '#7C3AED',
+    tint: 'bg-violet-50 text-violet-700 ring-violet-100',
+    tab: 'comms',
+    examples: ['Propósito', 'Liderazgo', 'Sostenibilidad', 'Historias'],
+  },
+  {
+    id: 'conocimiento',
+    name: 'Conocimiento',
+    tagline: 'Que la respuesta esté siempre a una pregunta de distancia.',
+    human: 'Encontrar políticas, procesos, personas y respuestas.',
+    org: 'Memoria viva, onboarding más rápido, menos dependencia informal.',
+    icon: Library,
+    accent: '#0E7490',
+    tint: 'bg-cyan-50 text-cyan-800 ring-cyan-100',
+    tab: 'knowledge',
+    examples: ['Políticas', 'Procesos', 'FAQs', 'Búsqueda inteligente'],
+  },
+];
+
+export type IntentChip = {
+  id: 'resolver' | 'informarme' | 'encontrar' | 'conectar' | 'crecer';
+  label: string;
+  hint: string;
+  icon: LucideIcon;
+  tab: TabId;
+};
+
+/** Los "momentos del empleado" — arquitectura mental del home v3 */
+export const intentChips: IntentChip[] = [
+  { id: 'resolver', label: 'Resolver', hint: 'vacaciones, certificados, nómina', icon: CheckCircle2, tab: 'services' },
+  { id: 'informarme', label: 'Informarme', hint: 'qué pasa en Crystal', icon: Newspaper, tab: 'comms' },
+  { id: 'encontrar', label: 'Encontrar', hint: 'documentos, personas, procesos', icon: Compass, tab: 'knowledge' },
+  { id: 'conectar', label: 'Conectar', hint: 'equipos, eventos, comunidad', icon: Users, tab: 'people' },
+  { id: 'crecer', label: 'Crecer', hint: 'aprendizaje y oportunidades', icon: GraduationCap, tab: 'comms' },
+];
+
+/* ---- Guion del asistente "Pregúntale a Crystal" (demo interactiva) ---- */
+
+export type AICardKind = 'stat' | 'doc' | 'person' | 'event' | 'pay' | 'list';
+
+export type AICard =
+  | { kind: 'stat'; value: number; suffix?: string; label: string; foot: string; action: string; tab: TabId; accent: string }
+  | { kind: 'doc'; title: string; detail: string; action: string; tab: TabId }
+  | { kind: 'person'; name: string; role: string; photo: string; tab: TabId }
+  | { kind: 'event'; title: string; when: string; place: string; action: string; tab: TabId }
+  | { kind: 'pay'; when: string; note: string; tab: TabId }
+  | { kind: 'list'; items: { label: string; hint: string }[]; tab: TabId };
+
+export type AIIntent = {
+  id: string;
+  q: string;
+  icon: LucideIcon;
+  reply: string;
+  card: AICard;
+};
+
+export const aiIntents: AIIntent[] = [
+  {
+    id: 'ai-vac',
+    q: '¿Cuántos días de vacaciones tengo?',
+    icon: Calendar,
+    reply: 'Tienes 12 días disponibles. Ojo: 4 vencen en mayo. ¿Quieres que te ayude a programarlos?',
+    card: { kind: 'stat', value: 12, suffix: ' días', label: 'Vacaciones disponibles', foot: '4 vencen en mayo', action: 'Solicitar vacaciones', tab: 'vacations', accent: '#000078' },
+  },
+  {
+    id: 'ai-cert',
+    q: 'Genérame mi carta laboral',
+    icon: FileText,
+    reply: 'Listo. Generé tu carta laboral con corte de hoy. Queda firmada digitalmente y lista para descargar.',
+    card: { kind: 'doc', title: 'Carta laboral', detail: 'Generada hoy · firma digital · PDF', action: 'Descargar', tab: 'certifications' },
+  },
+  {
+    id: 'ai-pay',
+    q: '¿Cuándo me pagan la próxima quincena?',
+    icon: Wallet,
+    reply: 'Tu próxima quincena se paga el 30 de abril. El desprendible queda en Mi nómina ese mismo día.',
+    card: { kind: 'pay', when: '30 de abril', note: 'Desprendible disponible en Mi nómina', tab: 'payroll' },
+  },
+  {
+    id: 'ai-event',
+    q: 'Inscríbeme en la jornada de bienestar',
+    icon: Sparkles,
+    reply: '¡Hecho! Te inscribí en la Jornada de bienestar del 8 de mayo. Te llegará el recordatorio.',
+    card: { kind: 'event', title: 'Jornada de bienestar', when: '8 de mayo · 9:00 a.m.', place: 'Auditorio Crystal · Medellín', action: 'Ver detalles', tab: 'comms' },
+  },
+  {
+    id: 'ai-person',
+    q: '¿Quién lidera Comunicaciones?',
+    icon: Users,
+    reply: 'Andrea González lidera Comunicaciones. Puedo abrir su perfil o ayudarte a escribirle.',
+    card: { kind: 'person', name: 'Andrea González', role: 'Líder de Comunicaciones', photo: 'https://i.pravatar.cc/240?img=47', tab: 'people' },
+  },
+  {
+    id: 'ai-festivos',
+    q: 'Recuérdame los puentes festivos del semestre',
+    icon: Compass,
+    reply: 'Estos son los próximos puentes festivos. ¿Te los bloqueo como referencia para planear tus días?',
+    card: {
+      kind: 'list',
+      items: [
+        { label: 'Día del Trabajo', hint: 'Vie 1 may' },
+        { label: 'Ascensión', hint: 'Lun 12 may' },
+        { label: 'Corpus Christi', hint: 'Lun 2 jun' },
+      ],
+      tab: 'vacations',
+    },
+  },
+];
