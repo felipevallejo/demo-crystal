@@ -1,52 +1,41 @@
 import type { LucideIcon } from 'lucide-react';
 
-export type TabId =
-  | 'home'
-  | 'comms'
-  | 'people'
-  | 'services'
-  | 'knowledge'
-  | 'processes'
-  | 'procedures'
-  | 'forms'
-  | 'policies'
-  | 'space'
-  | 'payroll'
-  | 'certifications'
-  | 'vacations'
-  | 'profile'
-  | 'team'
-  | 'benefits';
+/** Vistas del mango bajito (Fase 1). */
+export type ViewId = 'login' | 'home' | 'space';
 
-export type MaturityId = 'human' | 'assisted' | 'agentic';
-export type RoleId = 'collaborator' | 'leader';
+/** Cómo de "pesado" es cada servicio — columna vertebral de la priorización. */
+export type ServiceKind = 'visualizacion' | 'descarga' | 'consulta' | 'fase2';
 
-/** Contrato uniforme de todas las vistas v3. */
+/** De dónde sale el dato/contenido. */
+export type Fuente = 'nomina' | 'contenido' | 'mensajeria';
+
+export type SegmentPerfil = 'operativo' | 'administrativo';
+
+export type Segment = {
+  perfil: SegmentPerfil;
+  sede: string;
+};
+
 export type ViewProps = {
-  role: RoleId;
-  tab: TabId;
-  onNavigate: (tab: TabId) => void;
+  segment: Segment;
+  onNavigate: (view: ViewId) => void;
+  onOpenSearch: () => void;
+  onOpenService: (id: string) => void;
 };
 
-export type NavSubItem = {
-  id: TabId;
-  label: string;
-  icon: LucideIcon;
-};
-
-export type NavItem = {
-  id: TabId;
-  label: string;
-  icon: LucideIcon;
-  roles: RoleId[];
-  children?: NavSubItem[];
-};
-
-export type SummaryItem = {
-  tab: TabId;
+export type EspacioService = {
+  id: string;
   title: string;
-  value: string;
-  detail: string;
-  tone: string;
+  kind: ServiceKind;
+  fuente: Fuente;
   icon: LucideIcon;
+  /** Resumen corto en la tarjeta (ej. "12 días", "$8.450.000"). */
+  value?: string;
+  detail: string;
+  /** Solo para visualización: número animado. */
+  stat?: { value: number; suffix?: string };
+  /** Para descargas: formato. */
+  format?: string;
+  /** Segmento al que aplica (si vacío, aplica a todos). */
+  soloPerfil?: SegmentPerfil;
 };

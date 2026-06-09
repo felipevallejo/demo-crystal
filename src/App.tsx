@@ -1,90 +1,77 @@
-import { useCallback, useEffect, useState, type ComponentType } from 'react';
-import { motion } from 'framer-motion';
+import { useCallback, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { Toaster } from 'sonner';
-import { findParentTab, parseRole, parseTab, roleMeta } from './data/portal';
-import type { RoleId, TabId, ViewProps } from './types/app';
-import { AppShell, SubViewBar } from './components/v3/Shell';
-import { AssistantProvider } from './components/v3/Assistant';
-import { DashboardView } from './views/DashboardView';
-import { ComunicacionesView } from './views/ComunicacionesView';
-import { PersonasView } from './views/PersonasView';
-import { ServiciosView } from './views/ServiciosView';
-import { ConocimientoView } from './views/ConocimientoView';
-import { MiEspacioView } from './views/MiEspacioView';
-import { PayrollView } from './views/PayrollView';
-import { CertificationsView } from './views/CertificationsView';
-import { VacationsView } from './views/VacationsView';
-import { ProfileView } from './views/ProfileView';
-import { TeamView } from './views/TeamView';
-import { BenefitsView } from './views/BenefitsView';
-
-/** Mapa tab → vista. Las sub-vistas de Conocimiento comparten ConocimientoView. */
-const VIEWS: Record<TabId, ComponentType<ViewProps>> = {
-  home: DashboardView,
-  comms: ComunicacionesView,
-  people: PersonasView,
-  services: ServiciosView,
-  knowledge: ConocimientoView,
-  processes: ConocimientoView,
-  procedures: ConocimientoView,
-  forms: ConocimientoView,
-  policies: ConocimientoView,
-  space: MiEspacioView,
-  payroll: PayrollView,
-  certifications: CertificationsView,
-  vacations: VacationsView,
-  profile: ProfileView,
-  team: TeamView,
-  benefits: BenefitsView,
-};
+import type { Segment, ViewId } from './types/app';
+import { defaultSegment } from './data/portal';
+import { AppFrame } from './components/Shell';
+import { Login } from './components/Login';
+import { SearchOverlay } from './components/Search';
+import { ServiceSheet } from './components/ServiceSheet';
+import { Home } from './views/Home';
+import { MiEspacio } from './views/MiEspacio';
 
 export default function App() {
-  const [role] = useState<RoleId>(() =>
-    typeof window === 'undefined' ? 'collaborator' : parseRole(window.location.search),
-  );
-  const [tab, setTab] = useState<TabId>(() =>
-    typeof window === 'undefined' ? 'home' : parseTab(window.location.search, parseRole(window.location.search)),
-  );
+  const [authed, setAuthed] = useState(false);
+  // El segmento es fijo por empleado (sede/área/perfil): el sistema lo sabe, no se elige.
+  const segment: Segment = defaultSegment;
+  const [view, setView] = useState<ViewId>('home');
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [activeService, setActiveService] = useState<string | null>(null);
 
-  const navigate = useCallback((next: TabId) => {
-    setTab(next);
+  const onNavigate = useCallback((next: ViewId) => {
+    setView(next);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    params.set('tab', tab);
-    params.set('role', role);
-    window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
-  }, [role, tab]);
+  const openService = useCallback((id: string) => setActiveService(id), []);
+  const openSearch = useCallback(() => setSearchOpen(true), []);
 
-  const View = VIEWS[tab];
-  const isSubView = !!findParentTab(tab);
+  if (!authed) {
+    return (
+      <>
+        <Login onEnter={() => setAuthed(true)} />
+        <Toaster position="top-center" richColors />
+      </>
+    );
+  }
+
+  const viewProps = { segment, onNavigate, onOpenSearch: openSearch, onOpenService: openService };
 
   return (
-    <AssistantProvider onNavigate={navigate} employeeName={roleMeta[role].employeeName}>
-      <AppShell role={role} activeTab={tab} onNavigate={navigate}>
-        {isSubView ? <SubViewBar activeTab={tab} onNavigate={navigate} /> : null}
-        <motion.div
-          key={`${role}-${tab}`}
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
-        >
-          <View role={role} tab={tab} onNavigate={navigate} />
-        </motion.div>
-      </AppShell>
-      <Toaster
-        position="top-center"
-        toastOptions={{
-          style: {
-            background: '#12110f',
-            color: '#faf8f4',
-            border: 'none',
-            borderRadius: '16px',
-          },
+    <>
+      <AppFrame view={view} onNavigate={onNavigate} onOpenSearch={openSearch}>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={view}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.22, ease: 'easeOut' }}
+          >
+            {view === 'home' ? <Home {...viewProps} /> : <MiEspacio {...viewProps} />}
+          </motion.div>
+        </AnimatePresence>
+      </AppFrame>
+
+      <SearchOverlay
+        open={searchOpen}
+        onClose={() => setSearchOpen(false)}
+        onPick={(serviceId) => {
+          setSearchOpen(false);
+          if (serviceId) {
+            setView('space');
+            setActiveService(serviceId);
+          }
         }}
       />
-    </AssistantProvider>
+
+      <ServiceSheet
+        serviceId={activeService}
+        segment={segment}
+        onClose={() => setActiveService(null)}
+      />
+
+      <Toaster position="top-center" richColors toastOptions={{ style: { borderRadius: '12px' } }} />
+    </>
   );
 }
