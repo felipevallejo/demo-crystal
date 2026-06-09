@@ -35,7 +35,7 @@ export function StatNumber({ value, suffix, className }: { value: number; suffix
   );
 }
 
-/** Tag del tipo de servicio (Consulta / Descarga / Repositorio / Fase 2). */
+/** Tag del tipo de servicio. */
 export function KindTag({ kind, className }: { kind: ServiceKind; className?: string }) {
   const m = kindMeta[kind];
   return (

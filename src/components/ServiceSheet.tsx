@@ -1,15 +1,8 @@
 import { useState } from 'react';
 import { Drawer } from 'vaul';
-import { Download, ExternalLink, ChevronDown, FileText, Clock } from 'lucide-react';
+import { Download, ExternalLink, ChevronDown, FileText, Info } from 'lucide-react';
 import { toast } from 'sonner';
-import {
-  espacioServices,
-  beneficiosPacto,
-  formatos,
-  normas,
-  kindMeta,
-  fuenteMeta,
-} from '../data/portal';
+import { espacioServices, beneficiosPacto, formatos, normas, fuenteMeta } from '../data/portal';
 import type { DocItem } from '../data/portal';
 import type { Segment } from '../types/app';
 import { cn } from '../lib/cn';
@@ -59,13 +52,13 @@ function Body({ id }: { id: string }) {
     case 'vacaciones':
       return (
         <Stat value={12} suffix=" días" caption="Días disponibles" foot="4 días vencen en julio">
-          <Fase2Note text="Solicitar vacaciones es transaccional y entra en Fase 2. Hoy las gestiona tu líder." />
+          <HelpNote text="Tus vacaciones las coordinas con tu líder. Aquí ves tu saldo siempre al día." />
         </Stat>
       );
     case 'cesantias':
       return (
         <BigValue value="$8.450.000" caption="Saldo de cesantías" foot="Corte 31 may 2026 · actualizado hoy">
-          <Fase2Note text="La solicitud de cesantías (formato + adjuntos) entra en Fase 2." />
+          <HelpNote text="¿Vas a solicitar un retiro? Descarga el formato de solicitud en Formatos." />
         </BigValue>
       );
     case 'prestamos':
@@ -169,7 +162,7 @@ function DocList({ items }: { items: DocItem[] }) {
             <p className="truncate text-sm font-semibold text-ink">{it.title}</p>
             <p className="truncate text-xs text-ink-mute">{it.meta}</p>
           </div>
-          {it.fase2 ? <Pill /> : it.accion === 'descargar' ? <Download size={16} className="text-ink-mute" /> : <ExternalLink size={15} className="text-ink-mute" />}
+          {it.accion === 'descargar' ? <Download size={16} className="text-ink-mute" /> : <ExternalLink size={15} className="text-ink-mute" />}
         </button>
       ))}
     </div>
@@ -181,7 +174,7 @@ function Formatos() {
   return (
     <div className="space-y-2">
       <p className="mb-1 text-xs leading-snug text-ink-mute">
-        En Fase 1 descargas el formato para diligenciar. Gestionarlo en línea (radicar, adjuntar, firmar) entra en Fase 2.
+        Descarga el formato, diligéncialo y radícalo en servicio al personal.
       </p>
       {formatos.map((g) => {
         const isOpen = open === g.grupo;
@@ -205,7 +198,6 @@ function Formatos() {
                   >
                     <Download size={14} className="text-ink-mute" />
                     <span className="flex-1 text-[13px] text-ink-soft">{it.title}</span>
-                    {it.fase2 ? <Pill /> : null}
                   </button>
                 ))}
               </div>
@@ -217,21 +209,12 @@ function Formatos() {
   );
 }
 
-function Fase2Note({ text }: { text: string }) {
+function HelpNote({ text }: { text: string }) {
   return (
-    <div className={cn('mt-3 flex items-start gap-2 rounded-lg px-3 py-2.5 ring-1', kindMeta.fase2.tint)}>
-      <Clock size={14} className="mt-0.5 shrink-0" />
+    <div className="mt-3 flex items-start gap-2 rounded-lg bg-paper-2 px-3 py-2.5 text-ink-soft">
+      <Info size={14} className="mt-0.5 shrink-0" />
       <p className="text-xs leading-snug">{text}</p>
     </div>
-  );
-}
-
-function Pill() {
-  return (
-    <span className={cn('inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.1em] ring-1', kindMeta.fase2.tint)}>
-      <Clock size={9} />
-      Fase 2
-    </span>
   );
 }
 

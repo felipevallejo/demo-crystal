@@ -1,10 +1,10 @@
 import type { LucideIcon } from 'lucide-react';
 
-/** Vistas del mango bajito (Fase 1). */
+/** Vistas. */
 export type ViewId = 'login' | 'home' | 'space';
 
-/** Cómo de "pesado" es cada servicio — columna vertebral de la priorización. */
-export type ServiceKind = 'visualizacion' | 'descarga' | 'consulta' | 'fase2';
+/** Tipo de servicio. */
+export type ServiceKind = 'visualizacion' | 'descarga' | 'consulta';
 
 /** De dónde sale el dato/contenido. */
 export type Fuente = 'nomina' | 'contenido' | 'mensajeria';

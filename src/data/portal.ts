@@ -41,12 +41,11 @@ export const sedes = ['CD Itagüí', 'Planta Rionegro', 'Oficinas Medellín', 'T
 
 export const defaultSegment: Segment = { perfil: 'operativo', sede: 'CD Itagüí' };
 
-/** Etiquetas y tinte de cada tipo de servicio — cuenta la priorización. */
+/** Etiquetas y tinte de cada tipo de servicio. */
 export const kindMeta: Record<ServiceKind, { label: string; verb: string; tint: string; dot: string }> = {
   visualizacion: { label: 'Consulta', verb: 'Ver', tint: 'bg-emerald-50 text-emerald-700 ring-emerald-200', dot: 'bg-emerald-500' },
   descarga: { label: 'Descarga', verb: 'Descargar', tint: 'bg-blue-50 text-blue-700 ring-blue-200', dot: 'bg-blue-500' },
   consulta: { label: 'Repositorio', verb: 'Abrir', tint: 'bg-stone-100 text-stone-700 ring-stone-300', dot: 'bg-stone-500' },
-  fase2: { label: 'Fase 2', verb: 'Próximamente', tint: 'bg-amber-50 text-amber-700 ring-amber-200', dot: 'bg-amber-500' },
 };
 
 export const fuenteMeta: Record<EspacioService['fuente'], { label: string; hint: string }> = {
@@ -175,7 +174,7 @@ export const events: EventItem[] = [
 ];
 
 /* ============================================================
-   MI ESPACIO — Servicios (slide 9), con su tipo y su fuente
+   MI ESPACIO — Servicios
    ============================================================ */
 
 export const espacioServices: EspacioService[] = [
@@ -273,8 +272,6 @@ export type DocItem = {
   meta: string;
   /** descarga directa o solo lectura. */
   accion: 'descargar' | 'consultar';
-  /** Si es un trámite que en Fase 1 es solo el formato y la gestión va a Fase 2. */
-  fase2?: boolean;
 };
 
 export const beneficiosPacto: DocItem[] = [
@@ -289,25 +286,25 @@ export const formatos: { grupo: string; icon: LucideIcon; items: DocItem[] }[] =
     grupo: 'Auxilios',
     icon: Glasses,
     items: [
-      { id: 'f-estudio', title: 'Formato de auxilio de estudio', meta: 'PDF · diligenciar y adjuntar', accion: 'descargar', fase2: true },
-      { id: 'f-lentes', title: 'Formato de auxilio de lentes y montura', meta: 'PDF', accion: 'descargar', fase2: true },
+      { id: 'f-estudio', title: 'Formato de auxilio de estudio', meta: 'PDF · diligenciar y adjuntar', accion: 'descargar' },
+      { id: 'f-lentes', title: 'Formato de auxilio de lentes y montura', meta: 'PDF', accion: 'descargar' },
     ],
   },
   {
     grupo: 'Seguridad y salud (SST)',
     icon: ShieldCheck,
     items: [
-      { id: 'f-accidente', title: 'Reporte de accidente de trabajo', meta: 'PDF · requiere firma', accion: 'descargar', fase2: true },
-      { id: 'f-incidente', title: 'Reporte de incidente', meta: 'PDF · requiere firma', accion: 'descargar', fase2: true },
-      { id: 'f-inseguro', title: 'Reporte de condición insegura', meta: 'PDF', accion: 'descargar', fase2: true },
+      { id: 'f-accidente', title: 'Reporte de accidente de trabajo', meta: 'PDF · requiere firma', accion: 'descargar' },
+      { id: 'f-incidente', title: 'Reporte de incidente', meta: 'PDF · requiere firma', accion: 'descargar' },
+      { id: 'f-inseguro', title: 'Reporte de condición insegura', meta: 'PDF', accion: 'descargar' },
     ],
   },
   {
     grupo: 'Solicitudes',
     icon: HandCoins,
     items: [
-      { id: 'f-cesantias', title: 'Solicitud de cesantías', meta: 'PDF · gestión en Fase 2', accion: 'descargar', fase2: true },
-      { id: 'f-datos', title: 'Actualización de datos', meta: 'Anual · precarga automática en Fase 2', accion: 'descargar', fase2: true },
+      { id: 'f-cesantias', title: 'Solicitud de cesantías', meta: 'PDF', accion: 'descargar' },
+      { id: 'f-datos', title: 'Actualización de datos', meta: 'Anual · precarga automática', accion: 'descargar' },
     ],
   },
 ];
