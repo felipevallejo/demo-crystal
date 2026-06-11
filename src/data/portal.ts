@@ -51,7 +51,7 @@ export const kindMeta: Record<ServiceKind, { label: string; verb: string; tint: 
 export const fuenteMeta: Record<EspacioService['fuente'], { label: string; hint: string }> = {
   nomina: { label: 'Nómina', hint: 'Dato en vivo de tu nómina' },
   contenido: { label: 'Contenido', hint: 'Publicado por Comunicaciones y GH' },
-  mensajeria: { label: 'Mensajería', hint: 'Mensajería al empleado' },
+  mensajeria: { label: 'Mensajería', hint: 'Un mensaje directo para ti' },
 };
 
 /* ============================================================

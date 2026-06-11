@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Command } from 'cmdk';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search as SearchIcon, X, Sparkles, ArrowRight, CornerDownLeft } from 'lucide-react';
+import { Search as SearchIcon, ArrowLeft, Sparkles, ArrowRight, CornerDownLeft } from 'lucide-react';
 import { searchIndex, searchSuggestions, aiSnippets } from '../data/portal';
 import type { SearchEntry } from '../data/portal';
 import { cn } from '../lib/cn';
@@ -38,20 +38,30 @@ export function SearchOverlay({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 flex justify-center bg-ink/30 backdrop-blur-sm"
-          onClick={onClose}
+          transition={{ duration: 0.15 }}
+          className="fixed inset-0 z-50 flex justify-center bg-paper-2"
         >
           <motion.div
-            initial={{ y: 24, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 24, opacity: 0 }}
+            initial={{ x: 24, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: 24, opacity: 0 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
-            onClick={(e) => e.stopPropagation()}
-            className="flex h-[100dvh] w-full max-w-[480px] flex-col bg-paper lg:my-6 lg:h-[680px] lg:rounded-[2rem] lg:device-frame"
+            className="flex h-[100dvh] w-full max-w-[480px] flex-col bg-paper sm:border-x sm:border-line"
           >
             <Command shouldFilter className="flex h-full flex-col" label="Buscar en Crystal">
+              {/* header de página */}
+              <div className="flex items-center gap-2 border-b border-line px-3 py-3">
+                <button
+                  onClick={onClose}
+                  className="flex h-9 w-9 items-center justify-center rounded-lg text-ink-soft hover:bg-paper-2"
+                  aria-label="Atrás"
+                >
+                  <ArrowLeft size={20} />
+                </button>
+                <span className="text-sm font-bold text-ink">Buscar</span>
+              </div>
               {/* input */}
-              <div className="flex items-center gap-3 border-b border-line px-4 py-4">
+              <div className="flex items-center gap-3 border-b border-line px-4 py-3.5">
                 <SearchIcon size={20} className="text-gef-green" />
                 <Command.Input
                   autoFocus
@@ -60,9 +70,6 @@ export function SearchOverlay({
                   placeholder="¿Qué necesitas? Colilla, vacaciones, carta…"
                   className="flex-1 bg-transparent text-base font-medium text-ink outline-none placeholder:text-ink-mute"
                 />
-                <button onClick={onClose} className="rounded-lg p-1 text-ink-mute hover:bg-paper-2" aria-label="Cerrar">
-                  <X size={18} />
-                </button>
               </div>
 
               <Command.List className="no-scrollbar flex-1 overflow-y-auto px-3 py-3">

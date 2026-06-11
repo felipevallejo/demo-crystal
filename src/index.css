@@ -4,12 +4,12 @@
 @source "../src/**/*.{js,ts,jsx,tsx}";
 
 :root {
-  --paper: #faf8f4;
-  --paper-2: #f1ece3;
-  --ink: #12110f;
-  --ink-soft: #57524b;
-  --ink-mute: #8a8278;
-  --line: #e3ddd2;
+  --paper: #fbf7f4;   /* MILK */
+  --paper-2: #efe8dc; /* MILK→OAT */
+  --ink: #141414;     /* CHARCOAL */
+  --ink-soft: #4c4c4c;/* SHADOW */
+  --ink-mute: #685d54;/* MOCHA */
+  --line: #e5ded2;    /* OAT */
   --gef-green: #37b34a;
   --gef-deep: #000078;
 

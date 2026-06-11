@@ -7,15 +7,29 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Canvas cálido + estructura grafito
-        paper: '#FAF8F4',
-        'paper-2': '#F1ECE3',
-        'paper-3': '#E9E2D6',
-        ink: '#12110F',
-        'ink-soft': '#57524B',
-        'ink-mute': '#8A8278',
-        line: '#E7E1D7',
-        // Marca GEF auténtica (verde + azul oscuro; sin cyan inventado)
+        // Canvas cálido + estructura grafito — anclado a la paleta oficial
+        // "Base Maestra Crystal" (MILK / OAT / CHARCOAL / SHADOW / MOCHA).
+        paper: '#FBF7F4',      // MILK
+        'paper-2': '#EFE8DC',  // paso suave MILK→OAT
+        'paper-3': '#E5DED2',  // OAT (superficie más profunda)
+        ink: '#141414',        // CHARCOAL (negro editorial)
+        'ink-soft': '#4C4C4C', // SHADOW (texto secundario)
+        'ink-mute': '#685D54', // MOCHA (apoyo cálido, tierra sutil)
+        line: '#E5DED2',       // OAT (hairlines)
+        // Paleta oficial Crystal — referencia de marca
+        crystal: {
+          primary: '#000000',   // compat v2 (legacy, no tocar)
+          secondary: '#FFFFFF', // compat v2 (legacy, no tocar)
+          milk: '#FBF7F4',
+          oat: '#E5DED2',
+          taupe: '#A39382',
+          mocha: '#685D54',
+          charcoal: '#141414',
+          dawn: '#CECECE',
+          shadow: '#4C4C4C',
+        },
+        // Acento de marca GEF. El corporativo Crystal es neutro; este verde
+        // pertenece al contexto GEF, no a la paleta corporativa.
         gef: {
           green: '#37B34A',
           deep: '#000078',
@@ -23,11 +37,6 @@ export default {
         },
         // Punto Blanco (soporte sobrio)
         pb: { blue: '#9CB2D9', beige: '#BC8B6B', dark: '#333333' },
-        // Compat v2 (no romper vistas heredadas durante transición)
-        crystal: {
-          primary: '#000000',
-          secondary: '#FFFFFF',
-        },
       },
       fontFamily: {
         // Marca Crystal: Montserrat (principal) + Inter (cuerpo)

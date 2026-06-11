@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ShieldCheck, Smartphone, ArrowRight, KeyRound, MessageCircle } from 'lucide-react';
+import { Smartphone, ArrowRight, MessageCircle, Mail } from 'lucide-react';
 import { toast } from 'sonner';
 import { cn } from '../lib/cn';
 import { APP_BRAND, empleado } from '../data/portal';
@@ -26,34 +26,34 @@ export function Login({ onEnter }: { onEnter: () => void }) {
           {step === 'choose' ? (
             <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
               <button
-                onClick={onEnter}
+                onClick={() => setStep('cedula')}
                 className="flex w-full items-center gap-3 rounded-lg bg-ink px-4 py-4 text-left text-paper"
               >
-                <ShieldCheck size={22} className="shrink-0" />
+                <Smartphone size={22} className="shrink-0" />
                 <span className="flex-1">
-                  <span className="block text-sm font-bold">Tengo correo corporativo</span>
-                  <span className="block text-xs text-paper/70">Ingreso con mi cuenta Microsoft (SSO)</span>
+                  <span className="block text-sm font-bold">Ingreso con mi cédula</span>
+                  <span className="block text-xs text-paper/70">Te enviamos un código para entrar</span>
                 </span>
                 <ArrowRight size={18} />
               </button>
 
+              <div className="flex items-center gap-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-mute">
+                <span className="h-px flex-1 bg-line" />
+                o
+                <span className="h-px flex-1 bg-line" />
+              </div>
+
               <button
-                onClick={() => setStep('cedula')}
-                className="flex w-full items-center gap-3 rounded-lg border border-line bg-white px-4 py-4 text-left text-ink"
+                onClick={onEnter}
+                className="flex w-full items-center gap-3 rounded-lg border border-line bg-paper px-4 py-4 text-left text-ink"
               >
-                <Smartphone size={22} className="shrink-0 text-gef-green" />
+                <Mail size={22} className="shrink-0 text-ink-soft" />
                 <span className="flex-1">
-                  <span className="block text-sm font-bold">Ingreso con mi cédula</span>
-                  <span className="block text-xs text-ink-mute">Recibo un código por WhatsApp · sin contraseña</span>
+                  <span className="block text-sm font-bold">Entrar con correo corporativo</span>
+                  <span className="block text-xs text-ink-mute">Para personal administrativo</span>
                 </span>
                 <ArrowRight size={18} className="text-ink-mute" />
               </button>
-
-              <p className="flex items-start gap-2 px-1 pt-3 text-[11px] leading-snug text-ink-mute">
-                <KeyRound size={13} className="mt-0.5 shrink-0" />
-                Sin contraseñas que se filtren. El código es de un solo uso y tu cédula se valida contra la base de
-                empleados antes de enviarlo.
-              </p>
             </motion.div>
           ) : null}
 
@@ -73,7 +73,7 @@ export function Login({ onEnter }: { onEnter: () => void }) {
               <button
                 onClick={() => {
                   setStep('otp');
-                  toast.success('Código enviado por WhatsApp', { description: 'Llega al celular registrado en Crystal.' });
+                  toast.success('Código enviado', { description: 'Llega a tu correo o celular registrado en Crystal.' });
                 }}
                 className="flex w-full items-center justify-center gap-2 rounded-lg signature-grad px-4 py-3.5 text-sm font-bold text-white"
               >
@@ -89,7 +89,7 @@ export function Login({ onEnter }: { onEnter: () => void }) {
           {step === 'otp' ? (
             <motion.div initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} className="space-y-4">
               <p className="text-sm text-ink-soft">
-                Escribe el código de 6 dígitos que enviamos por WhatsApp al celular registrado.
+                Escribe el código de 6 dígitos que te enviamos a tu correo o celular registrado.
               </p>
               <OtpBoxes onComplete={onEnter} />
               <p className="text-center text-[11px] text-ink-mute">El código expira en 5 minutos · un solo uso</p>
@@ -100,9 +100,7 @@ export function Login({ onEnter }: { onEnter: () => void }) {
           ) : null}
         </div>
 
-        <p className="pb-10 text-center text-[10px] text-ink-mute">
-          Identidad gestionada con Microsoft Entra · acceso seguro para toda la población Crystal
-        </p>
+        <div className="pb-10" />
       </div>
     </div>
   );

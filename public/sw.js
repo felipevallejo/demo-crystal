@@ -1,7 +1,7 @@
 /* Service worker mínimo — habilita instalación PWA y un caché de shell básico.
    Para el demo: app-shell cache + network-first. No es el SW de producción. */
 const CACHE = 'gh-contigo-v1';
-const SHELL = ['/', '/index.html', '/manifest.webmanifest', '/logo-crystal.png', '/favicon.svg'];
+const SHELL = ['/', '/index.html', '/manifest.webmanifest', '/logo-crystal.png', '/favicon.png'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).catch(() => {}));
