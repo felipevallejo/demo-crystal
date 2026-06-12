@@ -126,6 +126,33 @@ export function Home({ segment, onNavigate, onOpenSearch, onOpenService }: ViewP
         </div>
       </section>
 
+      {/* eventos (instructivo Andrea: agenda primero, luego comunidad) */}
+      <section>
+        <SectionHeading eyebrow="Agenda" title="Eventos y reuniones" />
+        <div className="space-y-2">
+          {visibleEvents.map((e) => (
+            <div key={e.id} className="flex items-center gap-3 rounded-lg border border-line bg-white px-3.5 py-3">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-ink text-paper">
+                <e.icon size={18} />
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-bold text-ink">{e.title}</p>
+                <p className="truncate text-xs text-ink-mute">{e.when} · {e.place}</p>
+              </div>
+              {e.agendable ? (
+                <button
+                  onClick={() => toast.success('Agendado', { description: 'Lo añadimos a tu calendario (demo).' })}
+                  className="flex shrink-0 items-center gap-1 rounded-lg border border-line px-2.5 py-1.5 text-[11px] font-bold text-ink-soft"
+                >
+                  <CalendarPlus size={13} />
+                  Agendar
+                </button>
+              ) : null}
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* cumpleaños y reconocimientos */}
       <section>
         <SectionHeading eyebrow="Comunidad" title="Cumpleaños y reconocimientos" />
@@ -153,33 +180,6 @@ export function Home({ segment, onNavigate, onOpenSearch, onOpenService }: ViewP
                 <p className="text-[13px] font-bold text-ink">{r.title}</p>
                 <p className="truncate text-xs text-ink-mute">{r.body}</p>
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* eventos */}
-      <section>
-        <SectionHeading eyebrow="Agenda" title="Eventos y reuniones" />
-        <div className="space-y-2">
-          {visibleEvents.map((e) => (
-            <div key={e.id} className="flex items-center gap-3 rounded-lg border border-line bg-white px-3.5 py-3">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-ink text-paper">
-                <e.icon size={18} />
-              </span>
-              <div className="min-w-0 flex-1">
-                <p className="text-sm font-bold text-ink">{e.title}</p>
-                <p className="truncate text-xs text-ink-mute">{e.when} · {e.place}</p>
-              </div>
-              {e.agendable ? (
-                <button
-                  onClick={() => toast.success('Agendado', { description: 'Lo añadimos a tu calendario (demo).' })}
-                  className="flex shrink-0 items-center gap-1 rounded-lg border border-line px-2.5 py-1.5 text-[11px] font-bold text-ink-soft"
-                >
-                  <CalendarPlus size={13} />
-                  Agendar
-                </button>
-              ) : null}
             </div>
           ))}
         </div>

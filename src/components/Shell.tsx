@@ -9,7 +9,7 @@ import type { ViewId } from '../types/app';
 function Header() {
   return (
     <header className="sticky top-0 z-30 flex items-center gap-3 border-b border-line bg-paper/90 px-4 py-3 backdrop-blur">
-      <img src="/logo-crystal.png" alt={APP_BRAND} className="h-6 w-auto" />
+      <img src="/logo-crystal-sin-sas.png" alt={APP_BRAND} className="h-6 w-auto" />
       <button
         className="relative ml-auto flex h-9 w-9 items-center justify-center rounded-lg border border-line bg-white text-ink-soft"
         aria-label="Notificaciones"

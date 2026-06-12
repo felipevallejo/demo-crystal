@@ -7,15 +7,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Canvas cálido + estructura grafito — anclado a la paleta oficial
-        // "Base Maestra Crystal" (MILK / OAT / CHARCOAL / SHADOW / MOCHA).
-        paper: '#FBF7F4',      // MILK
-        'paper-2': '#EFE8DC',  // paso suave MILK→OAT
-        'paper-3': '#E5DED2',  // OAT (superficie más profunda)
-        ink: '#141414',        // CHARCOAL (negro editorial)
-        'ink-soft': '#4C4C4C', // SHADOW (texto secundario)
-        'ink-mute': '#685D54', // MOCHA (apoyo cálido, tierra sutil)
-        line: '#E5DED2',       // OAT (hairlines)
+        // Lineamientos gráficos Crystal (instructivo Andrea, jun-2026):
+        // fondo único de interfaz, "negro" no 100%, líneas y texto neutros.
+        paper: '#F9F8F4',      // Color de fondo (toda la interfaz)
+        'paper-2': '#F9F8F4',  // mismo fondo (sin escalón cálido)
+        'paper-3': '#EFEEE9',  // superficie sutil
+        ink: '#1C1C1C',        // "negro" (no 100%)
+        'ink-soft': '#5B5856', // texto secundario
+        'ink-mute': '#5B5856', // apoyo (alineado al neutro del instructivo)
+        line: '#B5B5B5',       // color de líneas
         // Paleta oficial Crystal — referencia de marca
         crystal: {
           primary: '#000000',   // compat v2 (legacy, no tocar)
@@ -28,20 +28,19 @@ export default {
           dawn: '#CECECE',
           shadow: '#4C4C4C',
         },
-        // Acento de marca GEF. El corporativo Crystal es neutro; este verde
-        // pertenece al contexto GEF, no a la paleta corporativa.
+        // Acento verde según instructivo Andrea (verde salvia, no el GEF vivo).
         gef: {
-          green: '#37B34A',
+          green: '#87BA7D', // verde de acento (trazo / texto)
           deep: '#000078',
-          glow: '#5BC85E', // verde claro (acento luminoso, antes cyan)
+          glow: '#D8EDD3',  // verde claro (fondo de chip/badge)
         },
         // Punto Blanco (soporte sobrio)
         pb: { blue: '#9CB2D9', beige: '#BC8B6B', dark: '#333333' },
       },
       fontFamily: {
-        // Marca Crystal: Montserrat (principal) + Inter (cuerpo)
+        // Instructivo Andrea: Montserrat para TODA la interfaz.
         display: ['Montserrat', 'system-ui', 'sans-serif'],
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Montserrat', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         '4xl': '2rem',

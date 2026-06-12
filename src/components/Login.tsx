@@ -16,7 +16,7 @@ export function Login({ onEnter }: { onEnter: () => void }) {
       <div className="mx-auto flex min-h-dvh w-full max-w-[480px] flex-col bg-paper px-6 sm:border-x sm:border-line">
         {/* marca */}
         <div className="flex flex-col items-center pt-20">
-          <img src="/logo-crystal.png" alt={APP_BRAND} className="h-11 w-auto" />
+          <img src="/logo-crystal-sin-sas.png" alt={APP_BRAND} className="h-11 w-auto" />
           <p className="mt-6 text-center text-xs font-semibold uppercase tracking-[0.24em] text-ink-mute">
             Ingreso de empleados
           </p>
@@ -54,6 +54,13 @@ export function Login({ onEnter }: { onEnter: () => void }) {
                 </span>
                 <ArrowRight size={18} className="text-ink-mute" />
               </button>
+
+              {/* cajón con las fotos de las marcas (instructivo Andrea) */}
+              <img
+                src="/marcas-login.jpg"
+                alt="Marcas de Crystal"
+                className="mt-2 w-full rounded-lg border border-line object-cover"
+              />
             </motion.div>
           ) : null}
 

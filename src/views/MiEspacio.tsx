@@ -81,10 +81,10 @@ export function MiEspacio({ onOpenService }: ViewProps) {
 
         {/* cesantías + préstamo — sensibles, difuminados */}
         <div className="grid grid-cols-2 gap-2.5">
-          <div className="flex flex-col rounded-xl bg-[#000078] px-4 py-4 text-white shadow-soft">
-            <Landmark size={18} className="text-white/70" />
-            <Money amount={8450000} dark />
-            <button onClick={() => onOpenService('cesantias')} className="mt-0.5 text-left text-[11px] text-white/75">
+          <div className="flex flex-col rounded-xl border border-line bg-paper-2 px-4 py-4">
+            <Landmark size={18} className="text-ink-soft" />
+            <Money amount={8450000} />
+            <button onClick={() => onOpenService('cesantias')} className="mt-0.5 text-left text-[11px] text-ink-mute">
               Cesantías · corte 31 may
             </button>
           </div>
